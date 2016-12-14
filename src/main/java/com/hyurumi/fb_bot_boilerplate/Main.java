@@ -105,11 +105,8 @@ public class Main {
                     }
                 } else if (messaging.postback != null) {
                     Message.Text("2").sendTo(senderId);
-                    if (messaging.message == null) {
-                        
+                    if (messaging.message.text == null) {
                         // Receiving postback message
-                        Message.Text("Hola {{user_first_name}}! Listo para comenzar la aventura? "
-                                + "De favor escoge que quieres hacer.").sendTo(senderId);
                         sendMenuWelcomeMessage(senderId);
                     } else {
                         if (messaging.postback.payload == Action.ACTION_A) {
@@ -132,7 +129,7 @@ public class Main {
     }
 
     static private void sendMenuWelcomeMessage(String senderId) throws Exception {
-        Message message = Message.Button("Elige una opción:");
+        Message message = Message.Button("Hola!! Listo para comenzar la aventura? De favor escoge que quieres hacer.");
         message.addButton(Button.Postback("Preguntas", Action.ACTION_A));
         message.addButton(Button.Postback("Entretenimiento", Action.ACTION_B));
         message.addButton(Button.Postback("Compras", Action.ACTION_C));
