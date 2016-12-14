@@ -104,11 +104,12 @@ public class Main {
                             break;
                     }
                 } else if (messaging.postback != null) {
-                    Message.Text("2").sendTo(senderId);
-                    if (messaging.message.text == null) {
+                    Message.Text("2-"+messaging.message.text).sendTo(senderId);
+                    if (messaging.message.text.equals("")) {
                         // Receiving postback message
                         sendMenuWelcomeMessage(senderId);
                     } else {
+                        Message.Text("3").sendTo(senderId);
                         if (messaging.postback.payload == Action.ACTION_A) {
                             Message.Text("Action A").sendTo(senderId);
                         } else {
@@ -116,10 +117,10 @@ public class Main {
                         }
                     }
                 } else if (messaging.delivery != null) {
-                    Message.Text("3").sendTo(senderId);
+                    Message.Text("4").sendTo(senderId);
                     // when the message is delivered, this webhook will be triggered.
                 } else {
-                    Message.Text("4").sendTo(senderId);
+                    Message.Text("5").sendTo(senderId);
                     // sticker may not be supported for now.
                     System.out.println(request.body());
                 }
