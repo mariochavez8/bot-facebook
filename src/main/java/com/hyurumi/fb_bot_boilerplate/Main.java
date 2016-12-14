@@ -30,7 +30,7 @@ public class Main {
         GSON = new Gson();
         sRandom = new Random();
         sAccessToken = System.getenv("ACCESS_TOKEN");
-        sValidationToken = System.getenv("VALIDATION_TOKEN");
+        sValidationToken = "test1";
     }
 
     public static void main(String[] args) {
@@ -41,7 +41,7 @@ public class Main {
             if (request.queryMap("hub.verify_token").value().equals(sValidationToken)) {
                 return request.queryMap("hub.challenge").value();
             }
-            return "Error, wrong validation token";
+            return "Error, wrong validation token MAC";
         });
 
         post("/webhook", (request, response) -> {
