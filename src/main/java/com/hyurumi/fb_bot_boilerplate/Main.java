@@ -17,7 +17,8 @@ import static spark.Spark.post;
 import static spark.SparkBase.port;
 
 public class Main {
-    public static  String sAccessToken;
+
+    public static String sAccessToken;
     private static String sValidationToken;
     public static final String END_POINT;
     public static final MediaType JSON;
@@ -41,7 +42,7 @@ public class Main {
             if (request.queryMap("hub.verify_token").value().equals(sValidationToken)) {
                 return request.queryMap("hub.challenge").value();
             }
-            return "Error, wrong validation token MAC";
+            return "Error, wrong validation token";
         });
 
         post("/webhook", (request, response) -> {
@@ -49,31 +50,69 @@ public class Main {
             List<Messaging> messagings = receivedMessage.entry.get(0).messaging;
             for (Messaging messaging : messagings) {
                 String senderId = messaging.sender.id;
-                if (messaging.message !=null) {
-                    // Receiving text message
-                    switch (sRandom.nextInt(4)){
-                        case 0:
-                            if (messaging.message.text != null)
-                                Message.Text(messaging.message.text).sendTo(senderId);
-                            else
+//                if (messaging.message !=null) {
+//                    // Receiving text message
+//                    switch (sRandom.nextInt(4)){
+//                        case 0:
+//                            if (messaging.message.text != null)
+//                                Message.Text(messaging.message.text).sendTo(senderId);
+//                            else
+//                                sendSampleGenericMessage(senderId);
+//                            break;
+//                        case 1:
+//                            Message.Image("https://unsplash.it/764/400?image=200").sendTo(senderId);
+//                            break;
+//                        case 2:
+//                            sendSampleGenericMessage(senderId);
+//                            break;
+//                        default:
+//                            sendSamplePostBackMessage(senderId);
+//                            break;
+//                    }
+//
+//                } else if (messaging.postback != null) {
+//                    // Receiving postback message
+//                    if (messaging.postback.payload == Action.ACTION_A) {
+//                        Message.Text("Action A").sendTo(senderId);
+//                    }else {
+//                        Message.Text("Action B").sendTo(senderId);
+//                    }
+//                } else if (messaging.delivery != null) {
+//                    // when the message is delivered, this webhook will be triggered.
+//                } else {
+//                    // sticker may not be supported for now.
+//                    System.out.println(request.body());
+//                }
+                if (messaging.message != null) {
+                    if (messaging.message.toString().toLowerCase().equals("empezar")) {
+                        Message.Text("Hola {{user_first_name}}! Listo para comenzar la aventura? "
+                                + "De favor escoge que quieres hacer.").sendTo(senderId);
+                        sendMenuWelcomeMessage(senderId);
+                    } else {
+                        switch (sRandom.nextInt(4)) {
+                            case 0:
+                                if (messaging.message.text != null) {
+                                    Message.Text(messaging.message.text).sendTo(senderId);
+                                } else {
+                                    sendSampleGenericMessage(senderId);
+                                }
+                                break;
+                            case 1:
+                                Message.Image("https://unsplash.it/764/400?image=200").sendTo(senderId);
+                                break;
+                            case 2:
                                 sendSampleGenericMessage(senderId);
-                            break;
-                        case 1:
-                            Message.Image("https://unsplash.it/764/400?image=200").sendTo(senderId);
-                            break;
-                        case 2:
-                            sendSampleGenericMessage(senderId);
-                            break;
-                        default:
-                            sendSamplePostBackMessage(senderId);
-                            break;
+                                break;
+                            default:
+                                sendSamplePostBackMessage(senderId);
+                                break;
+                        }
                     }
-
                 } else if (messaging.postback != null) {
                     // Receiving postback message
                     if (messaging.postback.payload == Action.ACTION_A) {
                         Message.Text("Action A").sendTo(senderId);
-                    }else {
+                    } else {
                         Message.Text("Action B").sendTo(senderId);
                     }
                 } else if (messaging.delivery != null) {
@@ -85,6 +124,14 @@ public class Main {
             }
             return "";
         });
+    }
+
+    static private void sendMenuWelcomeMessage(String senderId) throws Exception {
+        Message message = Message.Button("Elige una opción:");
+        message.addButton(Button.Postback("Preguntas", Action.ACTION_A));
+        message.addButton(Button.Postback("Entretenimiento", Action.ACTION_B));
+        message.addButton(Button.Postback("Compras", Action.ACTION_C));
+        message.sendTo(senderId);
     }
 
     static private void sendSamplePostBackMessage(String senderId) throws Exception {

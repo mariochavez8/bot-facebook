@@ -6,9 +6,11 @@ import com.google.gson.annotations.SerializedName;
  * Created by genki.furumi on 4/18/16.
  */
 public enum Action {
-    @SerializedName("action-a")
+    @SerializedName("Preguntas")
     ACTION_A,
-    @SerializedName("action-b")
-    ACTION_B
+    @SerializedName("Entretenimiento")
+    ACTION_B,
+    @SerializedName("Compras")
+    ACTION_C
 }
 
