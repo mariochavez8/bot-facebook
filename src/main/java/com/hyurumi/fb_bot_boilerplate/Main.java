@@ -84,11 +84,13 @@ public class Main {
 //                    System.out.println(request.body());
 //                }
                 if (messaging.message != null) {
+                    Message.Text("1").sendTo(senderId);
                     if (messaging.message.toString().toLowerCase().equals("empezar")) {
                         Message.Text("Hola {{user_first_name}}! Listo para comenzar la aventura? "
                                 + "De favor escoge que quieres hacer.").sendTo(senderId);
                         sendMenuWelcomeMessage(senderId);
                     } else {
+                        Message.Text("2").sendTo(senderId);
                         switch (sRandom.nextInt(4)) {
                             case 0:
                                 if (messaging.message.text != null) {
@@ -109,6 +111,7 @@ public class Main {
                         }
                     }
                 } else if (messaging.postback != null) {
+                    Message.Text("3").sendTo(senderId);
                     // Receiving postback message
                     if (messaging.postback.payload == Action.ACTION_A) {
                         Message.Text("Action A").sendTo(senderId);
@@ -116,8 +119,10 @@ public class Main {
                         Message.Text("Action B").sendTo(senderId);
                     }
                 } else if (messaging.delivery != null) {
+                    Message.Text("4").sendTo(senderId);
                     // when the message is delivered, this webhook will be triggered.
                 } else {
+                    Message.Text("5").sendTo(senderId);
                     // sticker may not be supported for now.
                     System.out.println(request.body());
                 }
