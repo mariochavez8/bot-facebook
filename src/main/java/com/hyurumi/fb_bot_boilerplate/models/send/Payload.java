@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by genki.furumi on 4/14/16.
+ * Created by AMK003 on 4/14/16.
  */
 public class Payload {
     @SerializedName("template_type")

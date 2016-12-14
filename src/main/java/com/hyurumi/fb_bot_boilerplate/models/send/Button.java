@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.hyurumi.fb_bot_boilerplate.models.common.Action;
 
 /**
- * Created by genki.furumi on 4/15/16.
+ * Created by AMK003 on 4/15/16.
  */
 public class Button {
     private enum Type {

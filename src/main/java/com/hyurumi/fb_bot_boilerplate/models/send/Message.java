@@ -12,7 +12,7 @@ import java.io.IOException;
 import static com.hyurumi.fb_bot_boilerplate.Main.sAccessToken;
 
 /**
- * Created by genki.furumi on 4/15/16.
+ * Created by AMK003 on 4/15/16.
  */
 public class Message {
 

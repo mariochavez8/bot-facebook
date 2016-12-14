@@ -85,44 +85,44 @@ public class Main {
 //                }
                 if (messaging.message != null) {
                     Message.Text("1").sendTo(senderId);
-                    if (messaging.message.toString().toLowerCase().equals("empezar")) {
+                    switch (sRandom.nextInt(4)) {
+                        case 0:
+                            if (messaging.message.text != null) {
+                                Message.Text(messaging.message.text).sendTo(senderId);
+                            } else {
+                                sendSampleGenericMessage(senderId);
+                            }
+                            break;
+                        case 1:
+                            Message.Image("https://unsplash.it/764/400?image=200").sendTo(senderId);
+                            break;
+                        case 2:
+                            sendSampleGenericMessage(senderId);
+                            break;
+                        default:
+                            sendSamplePostBackMessage(senderId);
+                            break;
+                    }
+                } else if (messaging.postback != null) {
+                    Message.Text("2").sendTo(senderId);
+                    if (messaging.message == null) {
+                        
+                        // Receiving postback message
                         Message.Text("Hola {{user_first_name}}! Listo para comenzar la aventura? "
                                 + "De favor escoge que quieres hacer.").sendTo(senderId);
                         sendMenuWelcomeMessage(senderId);
                     } else {
-                        Message.Text("2").sendTo(senderId);
-                        switch (sRandom.nextInt(4)) {
-                            case 0:
-                                if (messaging.message.text != null) {
-                                    Message.Text(messaging.message.text).sendTo(senderId);
-                                } else {
-                                    sendSampleGenericMessage(senderId);
-                                }
-                                break;
-                            case 1:
-                                Message.Image("https://unsplash.it/764/400?image=200").sendTo(senderId);
-                                break;
-                            case 2:
-                                sendSampleGenericMessage(senderId);
-                                break;
-                            default:
-                                sendSamplePostBackMessage(senderId);
-                                break;
+                        if (messaging.postback.payload == Action.ACTION_A) {
+                            Message.Text("Action A").sendTo(senderId);
+                        } else {
+                            Message.Text("Action B").sendTo(senderId);
                         }
                     }
-                } else if (messaging.postback != null) {
-                    Message.Text("3").sendTo(senderId);
-                    // Receiving postback message
-                    if (messaging.postback.payload == Action.ACTION_A) {
-                        Message.Text("Action A").sendTo(senderId);
-                    } else {
-                        Message.Text("Action B").sendTo(senderId);
-                    }
                 } else if (messaging.delivery != null) {
-                    Message.Text("4").sendTo(senderId);
+                    Message.Text("3").sendTo(senderId);
                     // when the message is delivered, this webhook will be triggered.
                 } else {
-                    Message.Text("5").sendTo(senderId);
+                    Message.Text("4").sendTo(senderId);
                     // sticker may not be supported for now.
                     System.out.println(request.body());
                 }
