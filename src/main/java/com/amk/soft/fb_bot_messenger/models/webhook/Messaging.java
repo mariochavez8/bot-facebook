@@ -1,6 +1,6 @@
-package com.hyurumi.fb_bot_boilerplate.models.webhook;
+package com.amk.soft.fb_bot_messenger.models.webhook;
 
-import com.hyurumi.fb_bot_boilerplate.models.common.Recipient;
+import com.amk.soft.fb_bot_messenger.models.common.Recipient;
 
 /**
  * Created by AMK003 on 4/14/16.
