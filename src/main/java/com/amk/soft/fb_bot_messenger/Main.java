@@ -7,6 +7,7 @@ import com.amk.soft.fb_bot_messenger.models.send.Element;
 import com.amk.soft.fb_bot_messenger.models.send.Message;
 import com.amk.soft.fb_bot_messenger.models.webhook.Messaging;
 import com.amk.soft.fb_bot_messenger.models.webhook.ReceivedMessage;
+import java.util.ArrayList;
 import okhttp3.*;
 
 import java.util.List;
@@ -50,20 +51,21 @@ public class Main {
             List<Messaging> messagings = receivedMessage.entry.get(0).messaging;
             for (Messaging messaging : messagings) {
                 String senderId = messaging.sender.id;
-                Message.Text("1").sendTo(senderId);
                 if (messaging.message != null) {
                     sendMenuMessage(senderId,
-                                    "Menu...");
+                            "Menu...", generateMenuMessage());
                 } else if (messaging.postback.payload != null) {
                     switch (messaging.postback.payload) {
                         case USER_DEFINED_PAYLOAD:
                             sendMenuMessage(senderId,
                                     "Hola!! Listo para comenzar la aventura? De "
-                                            + "favor escoge que quieres hacer.");
+                                    + "favor escoge que quieres hacer.",
+                                    generateMenuMessage());
                             break;
                         case ACTION_PREGUNTAS:
-                            Message.Text("Preguntas").sendTo(senderId);
-                            sendMenuPreguntas(senderId);
+                            sendMenuMessage(senderId,
+                                    "Tenemos para ti las mejores trivias y encuestas.",
+                                    generateMenuPreguntas());
                             break;
                         case ACTION_ENTRETENIMIENTO:
                             Message.Text("Entretenimiento").sendTo(senderId);
@@ -91,21 +93,29 @@ public class Main {
         });
     }
 
-    static private void sendMenuMessage(String senderId, String msj) throws Exception {
+    static private void sendMenuMessage(String senderId, String msj, List<Button> lst) throws Exception {
         Message message = Message.Button(msj);
-        message.addButton(Button.Postback("Preguntas", Action.ACTION_PREGUNTAS));
-        message.addButton(Button.Postback("Entretenimiento", Action.ACTION_ENTRETENIMIENTO));
-        message.addButton(Button.Postback("Compras", Action.ACTION_COMPRAS));
+        lst.stream().forEach((btn) -> {
+            message.addButton(btn);
+        });
         message.sendTo(senderId);
     }
     
-    static private void sendMenuPreguntas(String senderId) throws Exception {
-        Message message = Message.Button("Tenemos para 9 las mejores trivias y encuestas.");
-        message.addButton(Button.Postback("Trivias", Action.ACTION_TRIVIAS));
-        message.addButton(Button.Postback("Encuestas", Action.ACTION_ENCUESTAS));
-        message.sendTo(senderId);
+    static private List<Button> generateMenuMessage() {
+        List<Button> lst = new ArrayList<>();
+        lst.add(Button.Postback("Preguntas", Action.ACTION_PREGUNTAS));
+        lst.add(Button.Postback("Entretenimiento", Action.ACTION_ENTRETENIMIENTO));
+        lst.add(Button.Postback("Compras", Action.ACTION_COMPRAS));
+        return lst;
     }
     
+    static private List<Button> generateMenuPreguntas() {
+        List<Button> lst = new ArrayList<>();
+        lst.add(Button.Postback("Trivias", Action.ACTION_TRIVIAS));
+        lst.add(Button.Postback("Encuestas", Action.ACTION_ENCUESTAS));
+        return lst;
+    }
+
     static private void sendSamplePostBackMessage(String senderId) throws Exception {
         Message message = Message.Button("This is a postback message; please choose the action below");
         message.addButton(Button.Postback("action A", Action.ACTION_PREGUNTAS));
