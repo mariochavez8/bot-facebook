@@ -7,6 +7,7 @@ import com.amk.soft.fb_bot_messenger.models.send.Element;
 import com.amk.soft.fb_bot_messenger.models.send.Message;
 import com.amk.soft.fb_bot_messenger.models.webhook.Messaging;
 import com.amk.soft.fb_bot_messenger.models.webhook.ReceivedMessage;
+import java.util.ArrayList;
 import okhttp3.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import static spark.SparkBase.port;
 public class Main {
 
     public static String sAccessToken;
-    private static String sValidationToken;
+    private static String sValidationToken = "test1";
     public static final String END_POINT;
     public static final MediaType JSON;
     private static final Random sRandom;
@@ -31,7 +32,6 @@ public class Main {
         GSON = new Gson();
         sRandom = new Random();
         sAccessToken = System.getenv("ACCESS_TOKEN");
-        sValidationToken = "test1";
     }
 
     public static void main(String[] args) {
@@ -50,71 +50,33 @@ public class Main {
             List<Messaging> messagings = receivedMessage.entry.get(0).messaging;
             for (Messaging messaging : messagings) {
                 String senderId = messaging.sender.id;
-//                if (messaging.message !=null) {
-//                    // Receiving text message
-//                    switch (sRandom.nextInt(4)){
-//                        case 0:
-//                            if (messaging.message.text != null)
-//                                Message.Text(messaging.message.text).sendTo(senderId);
-//                            else
-//                                sendSampleGenericMessage(senderId);
-//                            break;
-//                        case 1:
-//                            Message.Image("https://unsplash.it/764/400?image=200").sendTo(senderId);
-//                            break;
-//                        case 2:
-//                            sendSampleGenericMessage(senderId);
-//                            break;
-//                        default:
-//                            sendSamplePostBackMessage(senderId);
-//                            break;
-//                    }
-//
-//                } else if (messaging.postback != null) {
-//                    // Receiving postback message
-//                    if (messaging.postback.payload == Action.ACTION_A) {
-//                        Message.Text("Action A").sendTo(senderId);
-//                    }else {
-//                        Message.Text("Action B").sendTo(senderId);
-//                    }
-//                } else if (messaging.delivery != null) {
-//                    // when the message is delivered, this webhook will be triggered.
-//                } else {
-//                    // sticker may not be supported for now.
-//                    System.out.println(request.body());
-//                }
                 if (messaging.message != null) {
-                    switch (sRandom.nextInt(4)) {
-                        case 0:
-                            if (messaging.message.text != null) {
-                                Message.Text(messaging.message.text).sendTo(senderId);
-                            } else {
-                                sendSampleGenericMessage(senderId);
-                            }
-                            break;
-                        case 1:
-                            Message.Image("https://unsplash.it/764/400?image=200").sendTo(senderId);
-                            break;
-                        case 2:
-                            sendSampleGenericMessage(senderId);
-                            break;
-                        default:
-                            sendSamplePostBackMessage(senderId);
-                            break;
-                    }
+                    sendMenuMessage(senderId,
+                            "Menu...", generateMenuPrincipal());
                 } else if (messaging.postback.payload != null) {
                     switch (messaging.postback.payload) {
                         case USER_DEFINED_PAYLOAD:
-                            sendMenuWelcomeMessage(senderId);
+                            sendMenuMessage(senderId,
+                                    "Hola!! Listo para comenzar la aventura? "
+                                    + "De favor escoge que quieres hacer.", 
+                                    generateMenuPrincipal());
                             break;
-                        case ACTION_A:
-                            Message.Text("Preguntas").sendTo(senderId);
+                        case ACTION_PREGUNTAS:
+                            sendMenuMessage(senderId,
+                                    "Tenemos para ti las mejores trivias y encuestas.", 
+                                    generateMenuPreguntas());
                             break;
-                        case ACTION_B:
+                        case ACTION_ENTRETENIMIENTO:
                             Message.Text("Entretenimiento").sendTo(senderId);
                             break;
-                        default:
+                        case ACTION_COMPRAS:
                             Message.Text("Compras").sendTo(senderId);
+                            break;
+                        case ACTION_TRIVIAS:
+                            Message.Text("Trivias").sendTo(senderId);
+                            break;
+                        case ACTION_ENCUESTAS:
+                            Message.Text("Encuentas").sendTo(senderId);
                             break;
                     }
                 } else if (messaging.delivery != null) {
@@ -130,18 +92,36 @@ public class Main {
         });
     }
 
-    static private void sendMenuWelcomeMessage(String senderId) throws Exception {
-        Message message = Message.Button("Hola!! Listo para comenzar la aventura? De favor escoge que quieres hacer.");
-        message.addButton(Button.Postback("Preguntas", Action.ACTION_A));
-        message.addButton(Button.Postback("Entretenimiento", Action.ACTION_B));
-        message.addButton(Button.Postback("Compras", Action.ACTION_C));
+    static private void sendMenuMessage(String senderId, String msj, List<Button> button) throws Exception {
+        Message message = Message.Button(msj);
+        button.stream().forEach((btn) -> {
+            message.addButton(btn);
+        });
         message.sendTo(senderId);
+    }
+
+    static private List<Button> generateMenuPrincipal() {
+        List<Button> lst = new ArrayList<>();
+        lst.add(Button.Postback("Preguntas",
+                Action.ACTION_PREGUNTAS));
+        lst.add(Button.Postback("Entretenimiento",
+                Action.ACTION_ENTRETENIMIENTO));
+        lst.add(Button.Postback("Compras",
+                Action.ACTION_COMPRAS));
+        return lst;
+    }
+    
+    static private List<Button> generateMenuPreguntas(){
+        List<Button> lst = new ArrayList<>();
+        lst.add(Button.Postback("Trivias", Action.ACTION_TRIVIAS));
+        lst.add(Button.Postback("Encuestas", Action.ACTION_ENCUESTAS));
+        return lst;
     }
 
     static private void sendSamplePostBackMessage(String senderId) throws Exception {
         Message message = Message.Button("This is a postback message; please choose the action below");
-        message.addButton(Button.Postback("action A", Action.ACTION_A));
-        message.addButton(Button.Postback("action B", Action.ACTION_B));
+        message.addButton(Button.Postback("action A", Action.ACTION_PREGUNTAS));
+        message.addButton(Button.Postback("action B", Action.ACTION_ENTRETENIMIENTO));
         message.addButton(Button.Url("open Google", "https://google.com"));
         message.sendTo(senderId);
     }
@@ -151,7 +131,7 @@ public class Main {
         Element element = new Element("Generic Message Sample", "https://unsplash.it/764/400?image=400", "subtitle");
         message.addElement(element);
         element = new Element("Yay Yay", "https://unsplash.it/764/400?image=500", "subtitle");
-        element.addButton(Button.Postback("action A", Action.ACTION_A));
+        element.addButton(Button.Postback("action A", Action.ACTION_PREGUNTAS));
         element.addButton(Button.Url("jump to FB", "https://facebook.com/"));
         message.addElement(element);
         message.sendTo(senderId);

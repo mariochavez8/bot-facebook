@@ -9,10 +9,16 @@ public enum Action {
     @SerializedName("USER_DEFINED_PAYLOAD")
     USER_DEFINED_PAYLOAD,
     @SerializedName("Preguntas")
-    ACTION_A,
+    ACTION_PREGUNTAS,
     @SerializedName("Entretenimiento")
-    ACTION_B,
+    ACTION_ENTRETENIMIENTO,
     @SerializedName("Compras")
-    ACTION_C
+    ACTION_COMPRAS,
+    //Preguntas
+    @SerializedName("Trivias")
+    ACTION_TRIVIAS,
+    @SerializedName("Encuentas")
+    ACTION_ENCUESTAS
+    //Entretenimiento
 }
 
