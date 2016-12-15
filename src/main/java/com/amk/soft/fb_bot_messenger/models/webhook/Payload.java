@@ -1,4 +1,4 @@
-package com.hyurumi.fb_bot_boilerplate.models.webhook;
+package com.amk.soft.fb_bot_messenger.models.webhook;
 
 /**
  * Created by AMK003 on 4/23/16.

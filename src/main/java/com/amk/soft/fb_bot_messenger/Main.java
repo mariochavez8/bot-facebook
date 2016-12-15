@@ -1,12 +1,12 @@
-package com.hyurumi.fb_bot_boilerplate;
+package com.amk.soft.fb_bot_messenger;
 
 import com.google.gson.Gson;
-import com.hyurumi.fb_bot_boilerplate.models.common.Action;
-import com.hyurumi.fb_bot_boilerplate.models.send.Button;
-import com.hyurumi.fb_bot_boilerplate.models.send.Element;
-import com.hyurumi.fb_bot_boilerplate.models.send.Message;
-import com.hyurumi.fb_bot_boilerplate.models.webhook.Messaging;
-import com.hyurumi.fb_bot_boilerplate.models.webhook.ReceivedMessage;
+import com.amk.soft.fb_bot_messenger.models.common.Action;
+import com.amk.soft.fb_bot_messenger.models.send.Button;
+import com.amk.soft.fb_bot_messenger.models.send.Element;
+import com.amk.soft.fb_bot_messenger.models.send.Message;
+import com.amk.soft.fb_bot_messenger.models.webhook.Messaging;
+import com.amk.soft.fb_bot_messenger.models.webhook.ReceivedMessage;
 import okhttp3.*;
 
 import java.util.List;

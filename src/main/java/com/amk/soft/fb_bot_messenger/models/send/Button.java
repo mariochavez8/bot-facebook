@@ -1,7 +1,7 @@
-package com.hyurumi.fb_bot_boilerplate.models.send;
+package com.amk.soft.fb_bot_messenger.models.send;
 
 import com.google.gson.annotations.SerializedName;
-import com.hyurumi.fb_bot_boilerplate.models.common.Action;
+import com.amk.soft.fb_bot_messenger.models.common.Action;
 
 /**
  * Created by AMK003 on 4/15/16.

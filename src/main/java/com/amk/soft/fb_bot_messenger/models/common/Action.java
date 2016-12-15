@@ -1,4 +1,4 @@
-package com.hyurumi.fb_bot_boilerplate.models.common;
+package com.amk.soft.fb_bot_messenger.models.common;
 
 import com.google.gson.annotations.SerializedName;
 

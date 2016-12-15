@@ -1,4 +1,4 @@
-package com.hyurumi.fb_bot_boilerplate.models.common;
+package com.amk.soft.fb_bot_messenger.models.common;
 
 /**
  * Created by AMK003 on 4/14/16.

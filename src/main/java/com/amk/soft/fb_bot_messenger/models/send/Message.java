@@ -1,15 +1,15 @@
-package com.hyurumi.fb_bot_boilerplate.models.send;
+package com.amk.soft.fb_bot_messenger.models.send;
 
 import com.google.gson.Gson;
-import com.hyurumi.fb_bot_boilerplate.Main;
-import com.hyurumi.fb_bot_boilerplate.models.common.Recipient;
+import com.amk.soft.fb_bot_messenger.Main;
+import com.amk.soft.fb_bot_messenger.models.common.Recipient;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import java.io.IOException;
 
-import static com.hyurumi.fb_bot_boilerplate.Main.sAccessToken;
+import static com.amk.soft.fb_bot_messenger.Main.sAccessToken;
 
 /**
  * Created by AMK003 on 4/15/16.
