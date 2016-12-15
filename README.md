@@ -18,4 +18,4 @@ A facebook bot boilerplate in Java, which can easily be deployed to Heroku.
 
 ## Author
 
-[hyurumi](https://github.com/hyurumi)
+[mriochavez8](https://github.com/mariochavez8)
