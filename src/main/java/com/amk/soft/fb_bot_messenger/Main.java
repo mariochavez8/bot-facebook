@@ -50,6 +50,7 @@ public class Main {
             List<Messaging> messagings = receivedMessage.entry.get(0).messaging;
             for (Messaging messaging : messagings) {
                 String senderId = messaging.sender.id;
+                Message.Text("1").sendTo(senderId);
                 if (messaging.message != null) {
                     Message.Text("1").sendTo(senderId);
                     sendMenuMessage(senderId,
