@@ -51,9 +51,11 @@ public class Main {
             for (Messaging messaging : messagings) {
                 String senderId = messaging.sender.id;
                 if (messaging.message != null) {
+                    Message.Text("1").sendTo(senderId);
                     sendMenuMessage(senderId,
                                     "Menu...");
                 } else if (messaging.postback.payload != null) {
+                    Message.Text("2").sendTo(senderId);
                     switch (messaging.postback.payload) {
                         case USER_DEFINED_PAYLOAD:
                             sendMenuMessage(senderId,
