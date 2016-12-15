@@ -104,7 +104,7 @@ public class Main {
                             break;
                     }
                 } else if (messaging.postback != null) {
-                    Message.Text("2-"+messaging.message.toString()).sendTo(senderId);
+                    Message.Text("2").sendTo(senderId);
                     if (messaging.message != null) {
                         // Receiving postback message
                         sendMenuWelcomeMessage(senderId);
