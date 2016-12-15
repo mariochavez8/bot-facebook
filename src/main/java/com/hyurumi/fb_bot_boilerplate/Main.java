@@ -108,6 +108,7 @@ public class Main {
                     switch (messaging.postback.payload) {
                         case USER_DEFINED_PAYLOAD:
                             sendMenuWelcomeMessage(senderId);
+                            break;
                         case ACTION_A:
                             Message.Text("Preguntas").sendTo(senderId);
                             break;
