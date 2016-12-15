@@ -11,6 +11,8 @@ public enum Action {
     @SerializedName("Entretenimiento")
     ACTION_B,
     @SerializedName("Compras")
-    ACTION_C
+    ACTION_C,
+    @SerializedName("USER_DEFINED_PAYLOAD")
+    USER_DEFINED_PAYLOAD
 }
 

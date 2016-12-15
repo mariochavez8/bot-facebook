@@ -103,24 +103,26 @@ public class Main {
                             sendSamplePostBackMessage(senderId);
                             break;
                     }
-                } else if (messaging.postback != null) {
-                    Message.Text("2-"+messaging.message.toString()).sendTo(senderId);
-                    if (messaging.message != null) {
-                        // Receiving postback message
-                        sendMenuWelcomeMessage(senderId);
-                    } else {
-                        Message.Text("3").sendTo(senderId);
-                        if (messaging.postback.payload == Action.ACTION_A) {
-                            Message.Text("Action A").sendTo(senderId);
-                        } else {
-                            Message.Text("Action B").sendTo(senderId);
-                        }
+                } else if (messaging.postback.payload.ACTION_A != null) {
+                    Message.Text("2").sendTo(senderId);
+                    switch (messaging.postback.payload) {
+                        case USER_DEFINED_PAYLOAD:
+                            sendMenuWelcomeMessage(senderId);
+                        case ACTION_A:
+                            Message.Text("Preguntas").sendTo(senderId);
+                            break;
+                        case ACTION_B:
+                            Message.Text("Entretenimiento").sendTo(senderId);
+                            break;
+                        default:
+                            Message.Text("Compras").sendTo(senderId);
+                            break;
                     }
                 } else if (messaging.delivery != null) {
-                    Message.Text("4").sendTo(senderId);
+                    Message.Text("3").sendTo(senderId);
                     // when the message is delivered, this webhook will be triggered.
                 } else {
-                    Message.Text("5").sendTo(senderId);
+                    Message.Text("4").sendTo(senderId);
                     // sticker may not be supported for now.
                     System.out.println(request.body());
                 }
