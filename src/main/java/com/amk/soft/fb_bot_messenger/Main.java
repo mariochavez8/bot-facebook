@@ -56,6 +56,7 @@ public class Main {
                 } else if (messaging.postback.payload != null) {
                     switch (messaging.postback.payload) {
                         case USER_DEFINED_PAYLOAD:
+                            Message.Text("2").sendTo(senderId);
                             sendMenuMessage(senderId,
                                     "Hola!! Listo para comenzar la aventura? "
                                     + "De favor escoge que quieres hacer.", 
