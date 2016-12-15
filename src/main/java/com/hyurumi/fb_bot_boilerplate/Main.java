@@ -103,7 +103,7 @@ public class Main {
                             sendSamplePostBackMessage(senderId);
                             break;
                     }
-                } else if (messaging.postback.payload.ACTION_A != null) {
+                } else if (messaging.postback.payload != null) {
                     Message.Text("2").sendTo(senderId);
                     switch (messaging.postback.payload) {
                         case USER_DEFINED_PAYLOAD:
