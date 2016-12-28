@@ -60,28 +60,25 @@ public class Main {
             List<Messaging> messagings = receivedMessage.entry.get(0).messaging;
             for (Messaging messaging : messagings) {
                 String senderId = messaging.sender.id;
-                String toStr = messaging.message.mid;
-                String toStr2 = messaging.message.text;
-                String toStr3 = messaging.delivery.watermark;
-                String toStr4 = messaging.recipient.id;
+                Message.Text("id: " + senderId).sendTo(senderId);
                 
                 try {
-                    Message.Text("id: " + senderId).sendTo(senderId);
-                } catch (Exception e) {
-                }
-                try {
+                    String toStr = messaging.message.mid;
                     Message.Text("toStr: " + toStr).sendTo(senderId);
                 } catch (Exception e) {
                 }
                 try {
+                    String toStr2 = messaging.message.text;
                     Message.Text("toStr2: " + toStr2).sendTo(senderId);
                 } catch (Exception e) {
                 }
                 try {
+                    String toStr3 = messaging.delivery.watermark;
                     Message.Text("toStr3: " + toStr3).sendTo(senderId);
                 } catch (Exception e) {
                 }
                 try {
+                    String toStr4 = messaging.recipient.id;
                     Message.Text("toStr4: " + toStr4).sendTo(senderId);
                 } catch (Exception e) {
                 }
