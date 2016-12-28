@@ -19,6 +19,7 @@ import com.mongodb.MongoClient;
  */
 public class TestServiceImpl implements ITestService{
     
+    private static final String DB = "heroku_th8kzj8g";
     private static final String nameCol = "test";
 
     @Override
@@ -29,7 +30,8 @@ public class TestServiceImpl implements ITestService{
         String rtn = "";
         DBCursor cur;
         try {
-            DB database = client.getDB("heroku_th8kzj8g");
+            DB database = client.getDB(DB);
+            database.authenticate("mac", "mongo1234".toCharArray());
             coleccion = database.getCollection(nameCol);
             cur = coleccion.find(new BasicDBObject("_id", 1));
             DBObject confObj = null;

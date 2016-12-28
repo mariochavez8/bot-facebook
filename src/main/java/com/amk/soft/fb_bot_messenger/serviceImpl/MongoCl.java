@@ -14,12 +14,15 @@ import com.mongodb.ServerAddress;
  */
 public class MongoCl implements IMongoCl{
     
+    private static final String HOST = "ds145178.mlab.com";
+    private static final int PORT = 45178;
+    
     @Override
     public MongoClient getMongoClient() {
         MongoClient client = null;
         try {
             client = new MongoClient(new ServerAddress(
-                            "ds145178.mlab.com", 45178));
+                            HOST, PORT));
         } catch (Exception e) {
             System.err.println("Error encontrado para obtener la coneccion a mongo: "+e);
         }
