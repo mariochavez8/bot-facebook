@@ -7,6 +7,8 @@ import com.amk.soft.fb_bot_messenger.models.send.Element;
 import com.amk.soft.fb_bot_messenger.models.send.Message;
 import com.amk.soft.fb_bot_messenger.models.webhook.Messaging;
 import com.amk.soft.fb_bot_messenger.models.webhook.ReceivedMessage;
+import com.amk.soft.fb_bot_messenger.service.ITestService;
+import com.amk.soft.fb_bot_messenger.serviceImpl.TestServiceImpl;
 import java.util.ArrayList;
 import okhttp3.*;
 
@@ -60,8 +62,7 @@ public class Main {
             List<Messaging> messagings = receivedMessage.entry.get(0).messaging;
             for (Messaging messaging : messagings) {
                 String senderId = messaging.sender.id;
-                Message.Text("id: " + senderId).sendTo(senderId);
-                
+                //Message.Text("id: " + senderId).sendTo(senderId);
                 if (messaging.message != null) {
                     sendMenuMessage(senderId,
                             txtMenu, generateMenuMessage());
@@ -107,6 +108,12 @@ public class Main {
             String sms = request.params(":sms");
             Message.Text(sms.replace("_", " ")).sendTo(senderId);
             return "Send success...";
+        });
+        
+        get("/test", (request, response) -> {
+            ITestService conv = new TestServiceImpl();
+            String s = conv.getTest();
+            return s;
         });
     }
 
