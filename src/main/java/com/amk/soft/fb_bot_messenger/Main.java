@@ -114,7 +114,11 @@ public class Main {
         get("/getUser/:id", (request, response) -> {
             IUsersService conv = new UsersServiceImpl();
             UsersDTO s = conv.getUser(Long.valueOf(request.params(":id")));
-            return s;
+            if(s == null){
+                return "User not found.";
+            } else {
+                return s.toString();
+            }
         });
     }
 
