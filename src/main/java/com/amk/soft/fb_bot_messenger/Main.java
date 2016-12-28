@@ -65,11 +65,26 @@ public class Main {
                 String toStr3 = messaging.delivery.watermark;
                 String toStr4 = messaging.recipient.id;
                 
-                Message.Text("id: " + senderId).sendTo(senderId);
-                Message.Text("toStr: " + toStr).sendTo(senderId);
-                Message.Text("toStr2: " + toStr2).sendTo(senderId);
-                Message.Text("toStr3: " + toStr3).sendTo(senderId);
-                Message.Text("toStr4: " + toStr4).sendTo(senderId);
+                try {
+                    Message.Text("id: " + senderId).sendTo(senderId);
+                } catch (Exception e) {
+                }
+                try {
+                    Message.Text("toStr: " + toStr).sendTo(senderId);
+                } catch (Exception e) {
+                }
+                try {
+                    Message.Text("toStr2: " + toStr2).sendTo(senderId);
+                } catch (Exception e) {
+                }
+                try {
+                    Message.Text("toStr3: " + toStr3).sendTo(senderId);
+                } catch (Exception e) {
+                }
+                try {
+                    Message.Text("toStr4: " + toStr4).sendTo(senderId);
+                } catch (Exception e) {
+                }
                 
                 if (messaging.message != null) {
                     sendMenuMessage(senderId,
