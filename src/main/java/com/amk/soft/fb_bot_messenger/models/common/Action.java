@@ -18,7 +18,13 @@ public enum Action {
     @SerializedName("Trivias")
     ACTION_TRIVIAS,
     @SerializedName("Encuentas")
-    ACTION_ENCUESTAS
-    //Entretenimiento
+    ACTION_ENCUESTAS,
+    //Trivias
+    @SerializedName("Ranking")
+    ACTION_RANKING,
+    @SerializedName("Jugar")
+    ACTION_JUGAR,
+    @SerializedName("Desafio")
+    ACTION_DESAFIO
 }
 

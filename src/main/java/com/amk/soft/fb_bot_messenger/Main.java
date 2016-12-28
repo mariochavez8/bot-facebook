@@ -74,7 +74,9 @@ public class Main {
                             Message.Text("Compras").sendTo(senderId);
                             break;
                         case ACTION_TRIVIAS:
-                            Message.Text("Trivias").sendTo(senderId);
+                            sendMenuMessage(senderId,
+                                    "Trivias:",
+                                    generateMenuTrivias());
                             break;
                         case ACTION_ENCUESTAS:
                             Message.Text("Encuentas").sendTo(senderId);
@@ -100,7 +102,7 @@ public class Main {
         });
         message.sendTo(senderId);
     }
-    
+
     static private List<Button> generateMenuMessage() {
         List<Button> lst = new ArrayList<>();
         lst.add(Button.Postback("Preguntas", Action.ACTION_PREGUNTAS));
@@ -108,7 +110,7 @@ public class Main {
         lst.add(Button.Postback("Compras", Action.ACTION_COMPRAS));
         return lst;
     }
-    
+
     static private List<Button> generateMenuPreguntas() {
         List<Button> lst = new ArrayList<>();
         lst.add(Button.Postback("Trivias", Action.ACTION_TRIVIAS));
@@ -116,6 +118,14 @@ public class Main {
         return lst;
     }
 
+    static private List<Button> generateMenuTrivias() {
+        List<Button> lst = new ArrayList<>();
+        lst.add(Button.Postback("Ranking", Action.ACTION_RANKING));
+        lst.add(Button.Postback("Jugar", Action.ACTION_JUGAR));
+        lst.add(Button.Postback("Desafio", Action.ACTION_DESAFIO));
+        return lst;
+    }
+    
     static private void sendSamplePostBackMessage(String senderId) throws Exception {
         Message message = Message.Button("This is a postback message; please choose the action below");
         message.addButton(Button.Postback("action A", Action.ACTION_PREGUNTAS));
