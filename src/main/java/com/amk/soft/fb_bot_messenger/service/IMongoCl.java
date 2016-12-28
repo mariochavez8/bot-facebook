@@ -15,4 +15,5 @@ import com.mongodb.MongoClient;
 public interface IMongoCl {
     
     public MongoClient getMongoClient();
+    
 }

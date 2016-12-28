@@ -9,11 +9,12 @@ package com.amk.soft.fb_bot_messenger.service;
  *
  * @author amk-003
  */
-
 import com.amk.soft.fb_bot_messenger.model.UsersDTO;
 
 public interface IUsersService {
-    
+
     public UsersDTO getUser(Long id);
+
+    public void insertUser(UsersDTO user);
     
 }

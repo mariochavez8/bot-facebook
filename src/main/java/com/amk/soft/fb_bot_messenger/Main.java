@@ -11,6 +11,7 @@ import com.amk.soft.fb_bot_messenger.models.webhook.ReceivedMessage;
 import com.amk.soft.fb_bot_messenger.service.IUsersService;
 import com.amk.soft.fb_bot_messenger.serviceImpl.UsersServiceImpl;
 import java.util.ArrayList;
+import java.util.Date;
 import okhttp3.*;
 
 import java.util.List;
@@ -49,6 +50,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+        IUsersService conv = new UsersServiceImpl();
+
         port(Integer.valueOf(System.getenv("PORT")));
 
         get("/webhook", (request, response) -> {
@@ -64,6 +67,14 @@ public class Main {
             for (Messaging messaging : messagings) {
                 String senderId = messaging.sender.id;
                 //Message.Text("id: " + senderId).sendTo(senderId);
+                UsersDTO usersDTO = conv.getUser(Long.valueOf(senderId));
+                if (usersDTO == null) {
+                    Date today = new Date();
+                    usersDTO.setId(Long.valueOf(senderId));
+                    usersDTO.setEntryTimeLong(today.getTime());
+                    usersDTO.setRanking(0);
+                    conv.insertUser(usersDTO);
+                }
                 if (messaging.message != null) {
                     sendMenuMessage(senderId,
                             txtMenu, generateMenuMessage());
@@ -103,18 +114,17 @@ public class Main {
             }
             return "";
         });
-        
+
         get("/sendSms/:id/:sms", (request, response) -> {
             String senderId = request.params(":id");
             String sms = request.params(":sms");
             Message.Text(sms.replace("_", " ")).sendTo(senderId);
             return "Send success...";
         });
-        
+
         get("/getUser/:id", (request, response) -> {
-            IUsersService conv = new UsersServiceImpl();
             UsersDTO s = conv.getUser(Long.valueOf(request.params(":id")));
-            if(s == null){
+            if (s == null) {
                 return "User not found.";
             } else {
                 return s.toString();

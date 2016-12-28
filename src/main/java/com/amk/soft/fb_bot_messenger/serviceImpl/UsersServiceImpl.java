@@ -15,18 +15,18 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.amk.soft.fb_bot_messenger.model.UsersDTO;
+
 /**
  *
  * @author amk-003
  */
-public class UsersServiceImpl implements IUsersService{
-    
+public class UsersServiceImpl implements IUsersService {
+
     @Override
     public UsersDTO getUser(Long id) {
         DBCollection coleccion;
         IMongoCl mongoClient = new MongoCl();
         MongoClient client = mongoClient.getMongoClient();
-        String rtn = "";
         DBCursor cur;
         try {
             DB database = client.getDB(Utils.DB);
@@ -42,9 +42,28 @@ public class UsersServiceImpl implements IUsersService{
         } catch (Exception e) {
             client.close();
             System.err.println("Error: " + e);
-            rtn = e.getMessage();
         }
         return null;
     }
-    
+
+    @Override
+    public void insertUser(UsersDTO userDto) {
+        DBCollection coleccion;
+        IMongoCl mongoClient = new MongoCl();
+        MongoClient client = mongoClient.getMongoClient();
+        try {
+            DB database = client.getDB(Utils.DB);
+            database.authenticate(Utils.USER, Utils.PASS.toCharArray());
+            coleccion = database.getCollection(Utils.colUsers);
+            BasicDBObject usr = new BasicDBObject();
+            usr.put("_id", userDto.getId());
+            usr.put("entry_time_long", userDto.getEntryTimeLong());
+            usr.put("ranking", userDto.getRanking());
+            coleccion.insert(usr);
+            client.close();
+        } catch (Exception e) {
+            client.close();
+            System.err.println("Error: " + e);
+        }
+    }
 }
