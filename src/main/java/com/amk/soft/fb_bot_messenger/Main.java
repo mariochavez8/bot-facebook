@@ -62,27 +62,6 @@ public class Main {
                 String senderId = messaging.sender.id;
                 Message.Text("id: " + senderId).sendTo(senderId);
                 
-                try {
-                    String toStr = messaging.message.mid;
-                    Message.Text("toStr: " + toStr).sendTo(senderId);
-                } catch (Exception e) {
-                }
-                try {
-                    String toStr2 = messaging.message.text;
-                    Message.Text("toStr2: " + toStr2).sendTo(senderId);
-                } catch (Exception e) {
-                }
-                try {
-                    String toStr3 = messaging.delivery.watermark;
-                    Message.Text("toStr3: " + toStr3).sendTo(senderId);
-                } catch (Exception e) {
-                }
-                try {
-                    String toStr4 = messaging.recipient.id;
-                    Message.Text("toStr4: " + toStr4).sendTo(senderId);
-                } catch (Exception e) {
-                }
-                
                 if (messaging.message != null) {
                     sendMenuMessage(senderId,
                             txtMenu, generateMenuMessage());
@@ -121,6 +100,13 @@ public class Main {
                 }
             }
             return "";
+        });
+        
+        get("/sendSms/:id/:sms", (request, response) -> {
+            String senderId = request.params(":id");
+            String sms = request.params(":sms");
+            Message.Text(sms.replace("_", " ")).sendTo(senderId);
+            return "Error, wrong validation token";
         });
     }
 
