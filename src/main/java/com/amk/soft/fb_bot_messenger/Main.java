@@ -60,7 +60,11 @@ public class Main {
             List<Messaging> messagings = receivedMessage.entry.get(0).messaging;
             for (Messaging messaging : messagings) {
                 String senderId = messaging.sender.id;
+                String toStr = messaging.sender.toString();
+                String toStr2 = messaging.sender.toString();
                 Message.Text("id: " + senderId).sendTo(senderId);
+                Message.Text("toStr: " + toStr).sendTo(senderId);
+                Message.Text("toStr2: " + toStr2).sendTo(senderId);
                 if (messaging.message != null) {
                     sendMenuMessage(senderId,
                             txtMenu, generateMenuMessage());
