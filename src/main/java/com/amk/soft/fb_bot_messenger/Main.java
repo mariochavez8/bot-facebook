@@ -1,5 +1,6 @@
 package com.amk.soft.fb_bot_messenger;
 
+import com.amk.soft.fb_bot_messenger.model.UsersDTO;
 import com.google.gson.Gson;
 import com.amk.soft.fb_bot_messenger.models.common.Action;
 import com.amk.soft.fb_bot_messenger.models.send.Button;
@@ -7,8 +8,8 @@ import com.amk.soft.fb_bot_messenger.models.send.Element;
 import com.amk.soft.fb_bot_messenger.models.send.Message;
 import com.amk.soft.fb_bot_messenger.models.webhook.Messaging;
 import com.amk.soft.fb_bot_messenger.models.webhook.ReceivedMessage;
-import com.amk.soft.fb_bot_messenger.service.ITestService;
-import com.amk.soft.fb_bot_messenger.serviceImpl.TestServiceImpl;
+import com.amk.soft.fb_bot_messenger.service.IUsersService;
+import com.amk.soft.fb_bot_messenger.serviceImpl.UsersServiceImpl;
 import java.util.ArrayList;
 import okhttp3.*;
 
@@ -110,9 +111,9 @@ public class Main {
             return "Send success...";
         });
         
-        get("/test", (request, response) -> {
-            ITestService conv = new TestServiceImpl();
-            String s = conv.getTest();
+        get("/getUser/:id", (request, response) -> {
+            IUsersService conv = new UsersServiceImpl();
+            UsersDTO s = conv.getUser(Long.valueOf(request.params(":id")));
             return s;
         });
     }

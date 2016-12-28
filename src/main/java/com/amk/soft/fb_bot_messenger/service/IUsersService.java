@@ -9,8 +9,11 @@ package com.amk.soft.fb_bot_messenger.service;
  *
  * @author amk-003
  */
-public interface ITestService {
+
+import com.amk.soft.fb_bot_messenger.model.UsersDTO;
+
+public interface IUsersService {
     
-    public String getTest();
+    public UsersDTO getUser(Long id);
     
 }

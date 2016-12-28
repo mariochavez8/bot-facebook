@@ -6,46 +6,45 @@
 package com.amk.soft.fb_bot_messenger.serviceImpl;
 
 import com.amk.soft.fb_bot_messenger.service.IMongoCl;
-import com.amk.soft.fb_bot_messenger.service.ITestService;
+import com.amk.soft.fb_bot_messenger.utils.Utils;
+import com.amk.soft.fb_bot_messenger.service.IUsersService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.amk.soft.fb_bot_messenger.model.UsersDTO;
 /**
  *
  * @author amk-003
  */
-public class TestServiceImpl implements ITestService{
+public class UsersServiceImpl implements IUsersService{
     
-    private static final String DB = "heroku_th8kzj8g";
-    private static final String nameCol = "test";
-
     @Override
-    public String getTest() {
+    public UsersDTO getUser(Long id) {
         DBCollection coleccion;
         IMongoCl mongoClient = new MongoCl();
         MongoClient client = mongoClient.getMongoClient();
         String rtn = "";
         DBCursor cur;
         try {
-            DB database = client.getDB(DB);
-            database.authenticate("mac", "mongo1234".toCharArray());
-            coleccion = database.getCollection(nameCol);
-            cur = coleccion.find(new BasicDBObject("_id", 1));
+            DB database = client.getDB(Utils.DB);
+            database.authenticate(Utils.USER, Utils.PASS.toCharArray());
+            coleccion = database.getCollection(Utils.colUsers);
+            cur = coleccion.find(new BasicDBObject("_id", id));
             DBObject confObj = null;
             while (cur.hasNext()) {
                 confObj = cur.next();
-                rtn = confObj.get("name").toString();
             }
             client.close();
+            return new UsersDTO((BasicDBObject) confObj);
         } catch (Exception e) {
             client.close();
             System.err.println("Error: " + e);
             rtn = e.getMessage();
         }
-        return rtn;
+        return null;
     }
     
 }
