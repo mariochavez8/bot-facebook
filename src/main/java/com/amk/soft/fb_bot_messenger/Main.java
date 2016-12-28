@@ -20,11 +20,15 @@ import static spark.SparkBase.port;
 public class Main {
 
     public static String sAccessToken;
-    private static String sValidationToken;
+    private static final String sValidationToken;
     public static final String END_POINT;
     public static final MediaType JSON;
     private static final Random sRandom;
     private static final Gson GSON;
+
+    private static final String txtBienvenida;
+    private static final String txtMenu;
+    private static final String txtPreguntas;
 
     static {
         JSON = MediaType.parse("application/json; charset=utf-8");
@@ -33,6 +37,11 @@ public class Main {
         sRandom = new Random();
         sAccessToken = System.getenv("ACCESS_TOKEN");
         sValidationToken = "test1";
+        //Text to menus
+        txtMenu = "Menu...";
+        txtBienvenida = "Hola!! Listo para comenzar la aventura? De "
+                + "favor escoge que quieres hacer.";
+        txtPreguntas = "Tenemos para ti las mejores trivias y encuestas.";
     }
 
     public static void main(String[] args) {
@@ -51,20 +60,20 @@ public class Main {
             List<Messaging> messagings = receivedMessage.entry.get(0).messaging;
             for (Messaging messaging : messagings) {
                 String senderId = messaging.sender.id;
+                Message.Text("id: " + senderId).sendTo(senderId);
                 if (messaging.message != null) {
                     sendMenuMessage(senderId,
-                            "Menu...", generateMenuMessage());
+                            txtMenu, generateMenuMessage());
                 } else if (messaging.postback.payload != null) {
                     switch (messaging.postback.payload) {
                         case USER_DEFINED_PAYLOAD:
                             sendMenuMessage(senderId,
-                                    "Hola!! Listo para comenzar la aventura? De "
-                                    + "favor escoge que quieres hacer.",
+                                    txtBienvenida,
                                     generateMenuMessage());
                             break;
                         case ACTION_PREGUNTAS:
                             sendMenuMessage(senderId,
-                                    "Tenemos para ti las mejores trivias y encuestas.",
+                                    txtPreguntas,
                                     generateMenuPreguntas());
                             break;
                         case ACTION_ENTRETENIMIENTO:
@@ -74,9 +83,7 @@ public class Main {
                             Message.Text("Compras").sendTo(senderId);
                             break;
                         case ACTION_TRIVIAS:
-                            sendMenuMessage(senderId,
-                                    "Trivias:",
-                                    generateMenuTrivias());
+                            sendMenuMessage(senderId, "", generateMenuTrivias());
                             break;
                         case ACTION_ENCUESTAS:
                             Message.Text("Encuentas").sendTo(senderId);
@@ -125,7 +132,7 @@ public class Main {
         lst.add(Button.Postback("Desafio", Action.ACTION_DESAFIO));
         return lst;
     }
-    
+
     static private void sendSamplePostBackMessage(String senderId) throws Exception {
         Message message = Message.Button("This is a postback message; please choose the action below");
         message.addButton(Button.Postback("action A", Action.ACTION_PREGUNTAS));
