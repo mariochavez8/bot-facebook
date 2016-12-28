@@ -106,7 +106,7 @@ public class Main {
             String senderId = request.params(":id");
             String sms = request.params(":sms");
             Message.Text(sms.replace("_", " ")).sendTo(senderId);
-            return "Error, wrong validation token";
+            return "Send success...";
         });
     }
 
